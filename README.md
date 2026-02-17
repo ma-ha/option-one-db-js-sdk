@@ -55,5 +55,4 @@ Check out the GitLab repo how to run the server as NodeJS process without docker
 
 ## Start a DB cluster in Kubernetes
 
-See https://github.com/ma-ha/option-one-db/blob/master/README.md
-
+See https://github.com/ma-ha/option-one-db/
