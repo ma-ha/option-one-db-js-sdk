@@ -2,7 +2,7 @@ const assert = require( 'assert' )
 
 const { DbClient } = require( '../db-sdk' )
 
-const TEST_DB = 'mocha-test-db'
+const TEST_DB = 'mocha-test-db1'
 
 const docA = { 'xy': 'wellKnownId', color:'red', text: 'test' }
 const docAbyId = { xy: docA.xy }
@@ -22,7 +22,7 @@ describe( 'Test DB: updateMany', () => {
 
   before( async () => {
     client = new DbClient(
-      'http://localhost:9000/db',
+      process.env.DB_URL,
       { accessId: process.env.DB_ACCESS_ID, accessKey: process.env.DB_ACCESS_KEY }
     )
     let result = await client.connect()
@@ -47,17 +47,19 @@ describe( 'Test DB: updateMany', () => {
   let txt = randomChar( 5 )
   
 
-  it( 'updateMany fail with not found' )// , async () => { 
-  //   let result = mochaColl.updateMany( { xy: xz }, { $set: { text: 'blah' } } )
-
-  //   assert.equal( result._error, "not found" )
-  // })
+  it( 'updateMany fail with not found', async () => { 
+    let result = await mochaColl.updateMany( { ab: 'red' }, { $set: { text: 'blah' } } )
+    // console.log( result )
+    assert.equal( result._ok, true )
+    assert.equal( result._okCnt, 0 )
+  })
 
 
   it( 'updateMany $set one field', async () => { 
     let result = await mochaColl.updateMany( { color: 'red' }, { $set: { text: txt } } )
-    assert.equal( result._error, null )
+    // console.log( result )
     assert.equal( result._ok, true )
+    assert.equal( result._nokCnt, 0 )
     assert.notEqual( result._okCnt, 0 )
     let check = await mochaColl.find( { text:  txt }  )
     // console.log( check )

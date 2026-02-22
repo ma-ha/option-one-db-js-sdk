@@ -2,7 +2,7 @@ const assert = require( 'assert' )
 
 const { DbClient } = require( '../db-sdk' )
 
-const TEST_DB = 'mocha-test-db'
+const TEST_DB = 'mocha-test-db1'
 
 describe( 'Test DB: Collection', () => { 
 
@@ -13,7 +13,7 @@ describe( 'Test DB: Collection', () => {
   before( async () => {
     console.log( 'prep coll')
     client = new DbClient(
-      'http://localhost:9000/db',
+      process.env.DB_URL,
       { accessId: process.env.DB_ACCESS_ID, accessKey: process.env.DB_ACCESS_KEY }
     )
     let result = await client.connect()

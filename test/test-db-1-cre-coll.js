@@ -11,7 +11,7 @@ describe( 'Test DB: Create', () => {
 
   before( async () => {
     client = new DbClient(
-      'http://localhost:9000/db',
+      process.env.DB_URL,
       { accessId: process.env.DB_ADMIN_ACCESS_ID, accessKey: process.env.DB_ADMIN_ACCESS_KEY }
     )
   })

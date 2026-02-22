@@ -12,7 +12,7 @@ describe( 'Test DB: Collection', () => {
 
   before( async () => {
     client = new DbClient(
-      'http://localhost:9000/db',
+      process.env.DB_URL,
       { accessId: process.env.DB_ACCESS_ID, accessKey: process.env.DB_ACCESS_KEY }
     )
     let result = await client.connect()

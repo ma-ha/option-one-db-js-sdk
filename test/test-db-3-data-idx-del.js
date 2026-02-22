@@ -22,8 +22,8 @@ describe( 'Test DB: Collection', () => {
 
   before( async () => {
     client = new DbClient(
-      'http://localhost:9000/db',
-      { accessId: process.env.DB_ACCESS_ID, accessKey: process.env.DB_ACCESS_KEY }
+      process.env.DB_URL,
+      { accessId: process.env.DB_ADMIN_ACCESS_ID, accessKey: process.env.DB_ADMIN_ACCESS_KEY }
     )
     let result = await client.connect()
     assert.equal( result._error, null )
@@ -34,14 +34,10 @@ describe( 'Test DB: Collection', () => {
   })
 
   
-  it( 'updateMany' // , async () => { }
-  )
-  
-  it( 'countDocument' // , async () => { }
-  )
-  
-  it( 'deleteMany' // , async () => { }
-  )
+  it( 'createCollection', async () => {
+    let result = await db.createCollection( TEST_COLL, { primaryKey: ['xy'] } )
+    assert.equal( result._error, null )
+  })
 
 
   after( async () => {

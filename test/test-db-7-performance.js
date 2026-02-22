@@ -2,9 +2,9 @@ const assert = require( 'assert' )
 
 const { DbClient } = require( '../db-sdk' )
 
-const TEST_DB = 'mocha-test-db'
+const TEST_DB = 'mocha-test-db1'
 
-describe( 'Test DB: Collection', () => { 
+describe( 'Test DB: Perf', () => { 
 
   let client = null
   let db = null
@@ -12,28 +12,65 @@ describe( 'Test DB: Collection', () => {
 
   before( async () => {
     client = new DbClient(
-      'http://localhost:9000/db',
+      process.env.DB_URL,
       { accessId: process.env.DB_ACCESS_ID, accessKey: process.env.DB_ACCESS_KEY }
     )
     let result = await client.connect()
     assert.equal( result._error, null )
     db = await client.db( TEST_DB )
     assert.equal( db._error, null )  
-    mochaColl = await db.collection( 'mocha-1' )
+    result = await db.createCollection(  'mocha-perf'  )
+
+    mochaColl = await db.collection( 'mocha-perf' )
     assert.equal( mochaColl._error, null )
   })
 
   let ids = []
 
+  it( 'cre idx no', async () => { 
+    let result1 = await mochaColl.createIndex( 'no' )
+  })
+
+  it( 'cre idx c', async () => { 
+  let result2 = await mochaColl.createIndex( 'c', { "msbLen": 6 } )
+  })
+
+  it( 'cre idx xy', async () => { 
+    let result3 = await mochaColl.createIndex( 'xy' )
+  })
+
   it( '100x insertOne', async () => { 
     for (let index = 0; index < 100; index++) {
-      let xz = randomChar( 5 )
-      ids.push( xz )
-      let result = await mochaColl.insertOne( { 'xy': xz, abc: 'test' } )
+      let xy = randomChar( 5 )
+      ids.push( xy )
+      let result = await mochaColl.insertOne({ 
+        no : index, 
+        xy  : xy, 
+        t   : randomChar( 4 ), 
+        c   : Math.random() * 100 
+      })
+      // let result = await mochaColl.insertOne( { 'xy': xz, abc: 'test' } )
       assert.equal( result._error, null )        
     }
   })
-  
+
+  it( '100x insertMany', async () => { 
+    let docs = []
+    for (let index = 0; index < 100; index++) {
+      let xy = randomChar( 5 )
+      ids.push( xy )
+      docs.push({ 
+        no : index, 
+        xy  : xy, 
+        t   : randomChar( 4 ), 
+        c   : Math.random() * 100 
+      })
+      // let result = await mochaColl.insertOne( { 'xy': xz, abc: 'test' } )
+    }
+    let result = await mochaColl.insertMany( docs )
+    assert.equal( result._error, null )        
+  })
+
   // it( 'findOne '+xz , async () => { 
   //   let result = await mochaColl.findOne( { 'xy': xz } )
   //   // console.log( '>>', result )

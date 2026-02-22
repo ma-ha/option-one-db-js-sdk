@@ -22,7 +22,7 @@ describe( 'Test DB: Collection', () => {
 
   before( async () => {
     client = new DbClient(
-      'http://localhost:9000/db',
+      process.env.DB_URL,
       { accessId: process.env.DB_ACCESS_ID, accessKey: process.env.DB_ACCESS_KEY }
     )
     let result = await client.connect()
@@ -43,38 +43,37 @@ describe( 'Test DB: Collection', () => {
     assert.equal( result._error, null )
   })
 
-  // it( 'listIndexes', async () => { 
-  //   let result = await mochaColl.listIndexes( )
-  //   console.log( 'listIndexes', result)
-  //   assert.equal( result._error, null )
-  //   assert.notEqual( result[0]['_PK'], null )
-  //   assert.equal( result[1].name, 'abc' )
-  // })
+  it( 'list indexes', async () => { 
+    let result = await mochaColl.listIndexes( )
+    // console.log( 'listIndexes', result )
+    assert.equal( result._error, null )
+    assert.notEqual( result['_PK'], null )
+    assert.notEqual( result['abc'], null )
+  })
   
 
   it( 'insertMany' , async () => { 
     let result = await mochaColl.insertMany([ 
-      docA, 
-      //docB, docC, docD 
+      docA,  docB, docC, docD 
     ])
     assert.equal( result._error, null )
   })
 
-  // it( 'find all ' , async () => { 
-  //   let cursor = mochaColl.find()
-  //   assert.equal( cursor._error, null )
-  //   let result = await cursor.toArray()
-  //   assert.equal( result._error, null )
-  //   assert.equal(  Array.isArray( result ), true )
-  //   // console.log( result )
-  // })
+  it( 'find all ' , async () => { 
+    let cursor = mochaColl.find()
+    assert.equal( cursor._error, null )
+    let result = await cursor.toArray()
+    assert.equal( result._error, null )
+    assert.equal(  Array.isArray( result ), true )
+    // console.log( result )
+  })
   
-  // it( 'find all 2 ' , async () => { 
-  //   let result = await mochaColl.find().toArray()
-  //   // console.log( result )
-  //   assert.equal( result._error, null )
-  //   assert.equal(  Array.isArray( result ), true )
-  // })
+  it( 'find all 2 ' , async () => { 
+    let result = await mochaColl.find().toArray()
+    // console.log( result )
+    assert.equal( result._error, null )
+    assert.equal(  Array.isArray( result ), true )
+  })
   
 
   it( 'find abc=test' , async () => { 
@@ -87,8 +86,11 @@ describe( 'Test DB: Collection', () => {
   it( 'updateMany' // , async () => { }
   )
   
-  it( 'countDocument' // , async () => { }
-  )
+  it( 'countDocument', async () => { 
+    let result = await mochaColl.countDocuments()
+    console.log( result )
+    assert.equal( result._error, null )
+  })
   
   it( 'deleteMany' // , async () => { }
   )
