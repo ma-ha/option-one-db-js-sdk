@@ -42,27 +42,6 @@ class DbClient {
     return new Db( this.dbURL, dbName, this.dbOptions )
   } 
 
-  async addUser( userId, password, email, database, admin = false ) {
-    if ( ! validName( userId ) ) { return { _error: 'Invalid userId' } }
-    let user = {
-      user : userId,
-      password : password,
-      email: email,
-      db : database,
-      admin : admin
-    }
-    let result = await this.api.POST( '/admin/user/', user )
-    return result
-  }
-
-  async changeUser( userId, password, email, database ) {
-    return { error: 'TODO' }
-  }
-
-  async deleteUser( userId ) {
-    return { error: 'TODO' }
-  }
-
 }
 
 module.exports = {
@@ -458,7 +437,7 @@ class Cursor {
   }
 
   async toArray() {
-    log.info( 'filter',  JSON.stringify(this.filter ))
+    log.verbose( 'filter',  JSON.stringify(this.filter ))
     let result = await this.collection.api.GET( 
       this.collection.dbColl, 
       { query      : JSON.stringify( this.filter ), 
