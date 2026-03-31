@@ -40,7 +40,7 @@ Details: See [API reference](README-SDK.md)
 
 ## Use AI search
 
-Example: Create AI index with a LLM embedding:
+Example: Create AI index with a LLM embedding for the field `productDescription` in the product collection:
 
 ```JS
 await productCollection.createIndex(
