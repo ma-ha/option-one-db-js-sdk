@@ -1,11 +1,12 @@
 # Option One DB JS SDK
 
-Option One DB is the next generation open source document database:
+Option One DB is the next generation open source document database with built in AI search:
 - Fast and light weight
-- Scales horizontally 
+- Scales horizontally
   ... but runs as single server on a laptop or even a Raspberry Pi
 - Optimized to run in a container and Kubernetes
 - Powerful indexing and query engine
+  - use LLM to create embedding indexes 
 - Integrated GUI for administration, monitoring and data access
 - Simple user and API access management
 - Built in backup scheduler
@@ -36,6 +37,24 @@ for ( let doc of docArray ) {
 ```
 
 Details: See [API reference](README-SDK.md) 
+
+## Use AI search
+
+Example: Create AI index with a LLM embedding:
+
+```JS
+await productCollection.createIndex( 'productDescription', { AI: 'embedding-gemma' } ) 
+```
+
+Add documents to the collection with text in `productDescription` field ...
+
+Query using AI:
+
+```JS
+let cursor = productCollection.find({ productDescription: { "$ai": "Show me products with fancy features suitable for premium customers!" }}
+let docArray = await cursor.toArray()
+...
+```
 
 ## Start a single server DB
 
