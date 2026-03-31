@@ -43,7 +43,10 @@ Details: See [API reference](README-SDK.md)
 Example: Create AI index with a LLM embedding:
 
 ```JS
-await productCollection.createIndex( 'productDescription', { AI: 'embedding-gemma' } ) 
+await productCollection.createIndex(
+  'productDescription',
+  { AI: 'embedding-gemma' }
+)
 ```
 
 Add documents to the collection with text in `productDescription` field ...
@@ -51,7 +54,10 @@ Add documents to the collection with text in `productDescription` field ...
 Query using AI:
 
 ```JS
-let cursor = productCollection.find({ productDescription: { "$ai": "Show me products with fancy features suitable for premium customers!" }}
+let cursor = productCollection.find({ 
+  productDescription: { 
+    "$ai": "Show me fancy products suitable for premium customers!"
+}}
 let docArray = await cursor.toArray()
 ...
 ```
