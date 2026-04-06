@@ -40,7 +40,7 @@ Details: See [API reference](README-SDK.md)
 
 ## Use AI search
 
-Example: Create AI index with a LLM embedding for the field `productDescription` in the product collection:
+Create **AI index with a LLM** (aka embeddings) for the field `productDescription` in the product collection:
 
 ```JS
 await productCollection.createIndex(
@@ -51,7 +51,7 @@ await productCollection.createIndex(
 
 Add documents to the collection with text in `productDescription` field ...
 
-Query using AI:
+**Query using AI:**
 
 ```JS
 let cursor = productCollection.find({ 
