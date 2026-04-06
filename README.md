@@ -64,7 +64,7 @@ let docArray = await cursor.toArray()
 
 ## Start a single server DB
 
-Run the [Option One DB server as docker container](https://hub.docker.com/repository/docker/mahade70/option-one-db/general) locally
+Run the DB server as [docker container](https://hub.docker.com/repository/docker/mahade70/option-one-db/general) locally
 
     docker run -d --name option_one_db  -p 9000:9000  -e DB_POD_NAME='my-db' -v /home/my-user/db/:/option-one/db/ -v /home/my-user/backup:/option-one/backup/ mahade70/option-one-db:0.8-single
 
