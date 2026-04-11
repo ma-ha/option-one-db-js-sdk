@@ -1,6 +1,6 @@
 # Option One DB JS SDK
 
-Option One DB is the next generation open source document database with built in AI search:
+[Option One DB](https://github.com/ma-ha/option-one-db/) is the next generation open source document database with built in AI search:
 - Fast and light weight
 - Scales horizontally
   ... but runs as single server on a laptop or even a Raspberry Pi
