@@ -268,6 +268,23 @@ see `deleteMany`.. but `deleteOne` fails if filter result is not a single docume
 The `filter` can directly address property names and can address sub-properties with a
 "path" like `a.b.c`. Supported operations:
 
+
+### async attachFile( docId, label, filename, [buffer, mimetype] )
+
+Attach file or update attachment for a document.
+
+### async listAttachments( docId ) 
+
+List attachment meta data for a document (returns `_attachment` object)
+
+### async getAttachment( docId, fileName )
+
+Returns a Buffer with the attached file data.
+
+### async deleteAttachment( docId, fileName )
+
+Removes the `file` attachment from the specific document.
+
 ## Cursor 
 
 This is returned e.g. by `Collection.find()`.

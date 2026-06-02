@@ -1,15 +1,16 @@
 # Option One DB JS SDK
 
-[Option One DB](https://github.com/ma-ha/option-one-db/) is the next generation open source document database with built in AI search:
-- Fast and light weight
+Option One DB is the next generation open source JSON document database with built in AI search:
+- Fast and light weight (startup RAM: ca. 30 MB)
 - Scales horizontally
-  ... but runs as single server on a laptop or even a Raspberry Pi
+  ... but runs as single server on a laptop ... or even a Raspberry Pi
 - Optimized to run in a container and Kubernetes
 - Powerful indexing and query engine
-  - use LLM to create embedding indexes 
-- Integrated GUI for administration, monitoring and data access
+  - use LLM to create embedding indexes for AI search
+- Manage (binary) attachment for documents
 - Simple user and API access management
 - Built in backup scheduler
+- Integrated GUI for administration, monitoring and data access
 
 ![DB admin](screen-db-dark.png) 
 
@@ -40,7 +41,7 @@ Details: See [API reference](README-SDK.md)
 
 ## Use AI search
 
-Create **AI index with a LLM** (aka embeddings) for the field `productDescription` in the product collection:
+Example: Create AI index with a LLM embedding for the field `productDescription` in the product collection:
 
 ```JS
 await productCollection.createIndex(
@@ -51,7 +52,7 @@ await productCollection.createIndex(
 
 Add documents to the collection with text in `productDescription` field ...
 
-**Query using AI:**
+Query using AI:
 
 ```JS
 let cursor = productCollection.find({ 
@@ -64,7 +65,7 @@ let docArray = await cursor.toArray()
 
 ## Start a single server DB
 
-Run the DB server as [docker container](https://hub.docker.com/repository/docker/mahade70/option-one-db/general) locally
+Run the server as docker container locally
 
     docker run -d --name option_one_db  -p 9000:9000  -e DB_POD_NAME='my-db' -v /home/my-user/db/:/option-one/db/ -v /home/my-user/backup:/option-one/backup/ mahade70/option-one-db:0.8-single
 

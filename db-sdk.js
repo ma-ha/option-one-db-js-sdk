@@ -6,6 +6,10 @@ const axios = require( 'axios' )
 const http  = require( 'http' )
 const https = require( 'https' )
 
+// for attachment upload
+const FormData = require('form-data')
+const fs = require( 'fs' )
+
 //-----------------------------------------------------------------------------
 
 class DbClient {
@@ -279,6 +283,64 @@ class Collection {
     log.verbose( 'deleteMany', result )
     return result
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  /** Attach file or update attachment for a document in this collection. 
+   * You can pass the file content as Buffer. If its null,it will (try to) read the file. */
+  async attachFile( docId, label, filename, buffer = null, mimeType ) {
+    log.verbose( 'attachFile', this.dbColl, docId )
+    let result = null
+    try {
+      const URL = this.dbColl + '/' + docId + '/attachment?label=' + label
+      if ( buffer && Buffer.isBuffer( buffer ) ) {
+
+        const attachment = new FormData()
+        attachment.append( "file", buffer, {
+          filename: filename,
+          contentType: mimeType,
+          knownLength: buffer.length,
+        })
+        result = await this.api.POST( URL, attachment )
+
+      } else {
+
+        const attachment = new FormData();
+        attachment.append( 'file', fs.createReadStream( filename ) )
+        result = await this.api.POST( URL, attachment )
+
+      }
+    } catch ( exc ) {
+      log.verbose( 'attachFile', exc )
+      result = { _error: exc.message }
+    }
+    log.verbose( 'attachFile', result )
+    return result
+  }
+
+  async listAttachments( docId ) {
+    log.verbose( 'attachFile', this.dbColl, docId )
+    const URL = this.dbColl + '/' + docId + '/attachment'
+    let result = await this.api.GET( URL )
+    log.verbose( 'attachFile', result )
+    return result
+  }
+
+  async getAttachment( docId, fileName ) {
+    log.verbose( 'attachFile', this.dbColl, docId )
+    const URL = this.dbColl + '/' + docId + '/attachment/' + fileName
+    let result = await this.api.GET( URL )
+    log.verbose( 'attachFile', result )
+    return result
+  }
+
+  async deleteAttachment( docId, fileName ) {
+    log.verbose( 'attachFile', this.dbColl, docId )
+    const URL = this.dbColl + '/' + docId + '/attachment/' + fileName
+    let result = await this.api.DELETE( URL )
+    log.verbose( 'attachFile', result )
+    return result
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -399,7 +461,7 @@ class APIClient {
           resolve( req.data )
         }
       }).catch( error => {
-        log.verbose( 'DELETE error', url, error.message )
+        log.error( 'DELETE error', url, error.message )
         resolve({ _error:error.message })
       })
     })
