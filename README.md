@@ -66,7 +66,7 @@ let docArray = await cursor.toArray()
 
 Run the  [Option One DB](https://github.com/ma-ha/option-one-db/) server locally as docker container:
 
-    docker run -d --name option_one_db  -p 9000:9000  -e DB_POD_NAME='my-db' -v /home/my-user/db/:/option-one/db/ -v /home/my-user/backup:/option-one/backup/ mahade70/option-one-db:0.12 =-single
+    docker run -d --name option_one_db  -p 9000:9000  -e DB_POD_NAME='my-db' -v /home/my-user/db/:/option-one/db/ -v /home/my-user/backup:/option-one/backup/ mahade70/option-one-db:0.12-single
 
 (This creates the folder `/home/my-user/db` and `/home/my-user/backup` if they are not existing.)
 
