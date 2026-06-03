@@ -1,16 +1,15 @@
 # Option One DB JS SDK
 
 Option One DB is the next generation open source JSON document database with built in AI search:
-- Fast and light weight (startup RAM: ca. 30 MB)
-- Scales horizontally
+- **Fast** and **light weight** (startup RAM: ca. 30 MB)
+- **Scales horizontally**
   ... but runs as single server on a laptop ... or even a Raspberry Pi
-- Optimized to run in a container and Kubernetes
-- Powerful indexing and query engine
-  - use LLM to create embedding indexes for AI search
-- Manage (binary) attachment for documents
-- Simple user and API access management
-- Built in backup scheduler
-- Integrated GUI for administration, monitoring and data access
+- Optimized to run in a container and **Kubernetes**
+- **Powerful indexing and query** engine + use LLM to create embedding indexes for **AI search**
+- Manage (binary) **attachments** for documents
+- Simple user and **API** access management
+- Built in **backup scheduler**
+- Integrated **GUI** for administration, monitoring and data management
 
 ![DB admin](screen-db-dark.png) 
 
@@ -65,9 +64,9 @@ let docArray = await cursor.toArray()
 
 ## Start a single server DB
 
-Run the server as docker container locally
+Run the  [Option One DB](https://github.com/ma-ha/option-one-db/) server locally as docker container:
 
-    docker run -d --name option_one_db  -p 9000:9000  -e DB_POD_NAME='my-db' -v /home/my-user/db/:/option-one/db/ -v /home/my-user/backup:/option-one/backup/ mahade70/option-one-db:0.8-single
+    docker run -d --name option_one_db  -p 9000:9000  -e DB_POD_NAME='my-db' -v /home/my-user/db/:/option-one/db/ -v /home/my-user/backup:/option-one/backup/ mahade70/option-one-db:0.12 =-single
 
 (This creates the folder `/home/my-user/db` and `/home/my-user/backup` if they are not existing.)
 
